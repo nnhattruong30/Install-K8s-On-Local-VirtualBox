@@ -1,30 +1,26 @@
 #!/bin/bash
+K8S_VERSION="1.30"
+
+
 ip -c a
 
 apt-get update && apt-get upgrade -y
-# Install required packages
 apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-# Add Kubernetes signing key
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes.gpg
 
-# Add Kubernetes apt repository
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" > /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION}/deb/ /" > /etc/apt/sources.list.d/kubernetes.list
 
-# Update package index
 apt-get update
 
-# Install kubelet, kubeadm, and kubectl
+# Install specific version
 apt-get install -y kubelet kubeadm kubectl
 
-# Hold the versions
 apt-mark hold kubelet kubeadm kubectl
 
-# Disable swap (required by Kubernetes)
 swapoff -a
 sed -i '/ swap / s/^/#/' /etc/fstab
 
-# Enable required kernel modules and sysctl params
 modprobe overlay
 modprobe br_netfilter
 
@@ -36,13 +32,10 @@ EOF
 
 sysctl --system
 
-# Install containerd
 apt-get install -y containerd
 
-# Configure containerd and restart
 containerd config default | tee /etc/containerd/config.toml
 systemctl restart containerd
 systemctl enable containerd
 
-# Print completion message
 echo "Kubernetes prerequisites installed. Ready for kubeadm init/join."
