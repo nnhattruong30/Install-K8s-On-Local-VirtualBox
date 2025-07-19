@@ -64,10 +64,10 @@ join_nodes() {
 main() {
     load_env
     start_vms
-    wait_for_vms
-    init_master
-    install_calico
-    join_nodes
+    # wait_for_vms
+    # init_master
+    # install_calico
+    # join_nodes
 
     echo "Cluster ready! Access with: VAGRANT_CWD=vagrant vagrant ssh Node-1"
 }
