@@ -33,6 +33,7 @@ apt-get install -y curl gnupg2 software-properties-common apt-transport-https ca
 mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml
 sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+# sed -i 's|sandbox_image = ".*"|sandbox_image = "registry.k8s.io/pause:3.10"|g' /etc/containerd/config.toml
 systemctl restart containerd
 systemctl enable containerd
 

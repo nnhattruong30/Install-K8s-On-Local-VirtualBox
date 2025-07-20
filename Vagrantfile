@@ -18,9 +18,13 @@ Vagrant.configure(2) do |config|
         vb.memory = "4096"
         vb.customize ["modifyvm", :id, "--groups", vb_group]
       end
+
+      node.vm.provision "shell", path: "./scripts/bootstrap.sh"
+      
+      # node.trigger.after [:up, :provision] do |trigger|
+      #   trigger.name = "Trigger something after up"
+      #   trigger.run = {inline: "echo \"Done!!!\""}
+      # end
     end
   end
-
-config.vm.provision "shell", path: "./scripts/bootstrap.sh"
-
 end
