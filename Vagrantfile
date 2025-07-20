@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
   vb_group = "/Local_K8s_Cluster"
 
   (1..$total).each do |i|
-    config.vm.define "Node-#{i}" do |node|
+    config.vm.define "node-#{i}" do |node|
       node.vm.box = 'local/ubuntu-server-24'                    
       node.vm.hostname = "k8s-node-#{i}"
       node.vm.network "private_network", ip: "192.168.56.11#{i}"
@@ -21,6 +21,6 @@ Vagrant.configure(2) do |config|
     end
   end
 
-config.vm.provision "shell", path: "../bootstrap.sh"
+config.vm.provision "shell", path: "./scripts/bootstrap.sh"
 
 end
