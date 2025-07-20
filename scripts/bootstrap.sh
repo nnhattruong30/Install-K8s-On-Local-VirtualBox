@@ -1,6 +1,5 @@
 #!/bin/bash
-# Use environment variable or default to 1.30
-# K8S_VERSION="${K8S_VERSION:-1.30}"
+K8S_VERSION="1.33"
 
 # Upgrade system
 apt-get update && apt-get upgrade -y

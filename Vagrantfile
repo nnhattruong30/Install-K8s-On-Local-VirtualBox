@@ -1,7 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 $total = 3
-$k8s_version = "1.33"
 
 Vagrant.configure(2) do |config|
   vb_group = "/Local_K8s_Cluster"
@@ -22,6 +21,6 @@ Vagrant.configure(2) do |config|
     end
   end
 
-config.vm.provision "shell", path: "../bootstrap.sh", env: {"K8S_VERSION" => "1.33"}
+config.vm.provision "shell", path: "../bootstrap.sh"
 
 end
